@@ -1,41 +1,20 @@
 
 import React from 'react';
 import { SiteImages } from '../data/siteImages';
+import { Language, translations } from '../data/translations';
 
 interface SolutionsPageProps {
   siteImages: SiteImages;
+  lang: Language;
 }
 
-const SolutionsPage: React.FC<SolutionsPageProps> = ({ siteImages }) => {
-  const solutions = [
-    {
-      id: '01',
-      title: 'Brand Seeding Solution',
-      label: '브랜드 시딩',
-      desc: '시장 진입 전, 현지 소비자들의 실제 반응을 이끌어내고 인허가를 완비하는 가장 중요한 단계입니다.',
-      features: ['NPRA / JAKIM 인증 대행', '현지 체험단 마케팅', '시장성 리포트 발행', '샘플링 프로모션 운영'],
-      bg: 'bg-white',
-      image: siteImages.solution1
-    },
-    {
-      id: '02',
-      title: 'Marketing Solution',
-      label: '마케팅 솔루션',
-      desc: '이미 진입한 브랜드를 현지 트렌드에 맞춰 폭발적으로 성장시키는 퍼포먼스 마케팅 단계입니다.',
-      features: ['KOL 메가 인플루언서 캠페인', '공식 인스타그램/틱톡 채널 운영', '라이브 커머스 전문 스튜디오 연동', '현지 유통 채널 바이럴'],
-      bg: 'bg-blue-50/50',
-      image: siteImages.solution2
-    },
-    {
-      id: '03',
-      title: 'Logistics Solution',
-      label: '물류 솔루션',
-      desc: '배송 경쟁력이 곧 브랜드 경쟁력입니다. 직영 창고를 통해 압도적인 고객 경험을 제공합니다.',
-      features: ['쿠알라룸푸르 거점 3PL 풀필먼트', '온도/습도 관리 특화 보관', '실시간 재고 연동 시스템', 'B2B/B2C 통합 배송 지원'],
-      bg: 'bg-white',
-      image: siteImages.solution3
-    }
-  ];
+const SolutionsPage: React.FC<SolutionsPageProps> = ({ siteImages, lang }) => {
+  const t = translations[lang].solutions;
+  const items = t.items.map((item, idx) => ({
+    ...item,
+    image: idx === 0 ? siteImages.solution1 : idx === 1 ? siteImages.solution2 : siteImages.solution3,
+    bg: idx % 2 === 1 ? 'bg-blue-50/50' : 'bg-white'
+  }));
 
   return (
     <div className="pt-32">
@@ -44,15 +23,14 @@ const SolutionsPage: React.FC<SolutionsPageProps> = ({ siteImages }) => {
           <img src={siteImages.hero} className="w-full h-full object-cover blur-sm" alt="Background" />
         </div>
         <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-           <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-tight">Our <span className="text-blue-500">Solutions</span></h1>
+           <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-tight">{t.header} <span className="text-blue-500">{t.headerAccent}</span></h1>
            <p className="text-xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed">
-             말레이시아 비즈니스의 시작부터 끝까지,<br />
-             데이터와 현지 인프라가 결합된 완벽한 성공 로드맵을 제안합니다.
+             {t.desc}
            </p>
         </div>
       </section>
 
-      {solutions.map((s, idx) => (
+      {items.map((s, idx) => (
         <section key={idx} className={`py-40 ${s.bg} overflow-hidden`}>
           <div className={`max-w-7xl mx-auto px-6 lg:px-12 flex flex-col ${idx % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-20 items-center`}>
             <div className="w-full lg:w-1/2">

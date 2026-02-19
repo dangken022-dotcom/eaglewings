@@ -11,12 +11,14 @@ import ContactPage from './pages/ContactPage';
 import BlogPostDetail from './pages/BlogPostDetail';
 import AdminPage from './pages/AdminPage';
 import { defaultSiteImages, SiteImages } from './data/siteImages';
+import { Language } from './data/translations';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<string>('home');
   const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [siteImages, setSiteImages] = useState<SiteImages>(defaultSiteImages);
+  const [lang, setLang] = useState<Language>('en');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,19 +42,23 @@ const App: React.FC = () => {
     setSiteImages(newImages);
   };
 
+  const toggleLang = (newLang: Language) => {
+    setLang(newLang);
+  };
+
   const renderPage = () => {
     if (currentPage === 'blog-detail' && selectedPostId) {
-      return <BlogPostDetail postId={selectedPostId} onNavigate={navigateTo} siteImages={siteImages} />;
+      return <BlogPostDetail postId={selectedPostId} onNavigate={navigateTo} siteImages={siteImages} lang={lang} />;
     }
 
     switch (currentPage) {
-      case 'home': return <Home onNavigate={navigateTo} siteImages={siteImages} />;
-      case 'about': return <AboutPage siteImages={siteImages} />;
-      case 'solutions': return <SolutionsPage siteImages={siteImages} />;
-      case 'blog': return <BlogPage onNavigate={navigateTo} siteImages={siteImages} />;
-      case 'contact': return <ContactPage />;
+      case 'home': return <Home onNavigate={navigateTo} siteImages={siteImages} lang={lang} />;
+      case 'about': return <AboutPage siteImages={siteImages} lang={lang} />;
+      case 'solutions': return <SolutionsPage siteImages={siteImages} lang={lang} />;
+      case 'blog': return <BlogPage onNavigate={navigateTo} siteImages={siteImages} lang={lang} />;
+      case 'contact': return <ContactPage lang={lang} />;
       case 'admin': return <AdminPage currentImages={siteImages} onUpdate={updateImages} onNavigate={navigateTo} />;
-      default: return <Home onNavigate={navigateTo} siteImages={siteImages} />;
+      default: return <Home onNavigate={navigateTo} siteImages={siteImages} lang={lang} />;
     }
   };
 
@@ -62,13 +68,16 @@ const App: React.FC = () => {
         isScrolled={isScrolled} 
         currentPage={currentPage} 
         onNavigate={navigateTo} 
+        lang={lang}
+        onLangChange={toggleLang}
+        siteImages={siteImages}
       />
       
-      <div key={currentPage + (selectedPostId || '')} className="animate-pageTransition">
+      <div key={currentPage + (selectedPostId || '') + lang} className="animate-pageTransition">
         {renderPage()}
       </div>
 
-      <Footer onNavigate={navigateTo} />
+      <Footer onNavigate={navigateTo} lang={lang} />
       <InquiryFloating />
       
       <style>{`

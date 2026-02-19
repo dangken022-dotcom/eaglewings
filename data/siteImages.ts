@@ -1,6 +1,7 @@
 
 export interface SiteImages {
   // Main
+  logo: string;
   hero: string;
   aboutMain: string;
   
@@ -28,6 +29,7 @@ export interface SiteImages {
 }
 
 export const defaultSiteImages: SiteImages = {
+  logo: "", // 빈 값일 경우 텍스트 로고 노출
   hero: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1920&q=80",
   aboutMain: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80",
   

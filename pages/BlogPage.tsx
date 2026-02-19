@@ -1,25 +1,30 @@
 
 import React from 'react';
-import { blogPosts } from '../data/blogPosts';
+import { getBlogPosts } from '../data/blogPosts';
 import { SiteImages } from '../data/siteImages';
+import { Language, translations } from '../data/translations';
 
 interface BlogPageProps {
   onNavigate: (page: string, postId?: number) => void;
   siteImages: SiteImages;
+  lang: Language;
 }
 
-const BlogPage: React.FC<BlogPageProps> = ({ onNavigate, siteImages }) => {
+const BlogPage: React.FC<BlogPageProps> = ({ onNavigate, siteImages, lang }) => {
+  const t = translations[lang].home.blog;
+  const posts = getBlogPosts(lang);
+
   return (
     <div className="pt-32">
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="text-center mb-24">
-            <h1 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tighter mb-6">Expert Insights</h1>
-            <p className="text-xl text-gray-400 font-light max-w-2xl mx-auto">현장 전문가들이 전하는 말레이시아 비즈니스의 모든 것.</p>
+            <h1 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tighter mb-6">{t.title}</h1>
+            <p className="text-xl text-gray-400 font-light max-w-2xl mx-auto">Market insights delivered by local experts in Malaysia.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-20">
-            {blogPosts.map(post => {
+            {posts.map(post => {
               const postImage = (siteImages as any)[`blog${post.id}`] || post.image;
               return (
                 <div 

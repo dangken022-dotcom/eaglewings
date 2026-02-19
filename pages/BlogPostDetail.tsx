@@ -1,22 +1,25 @@
 
 import React from 'react';
-import { blogPosts } from '../data/blogPosts';
+import { getBlogPosts } from '../data/blogPosts';
 import { SiteImages } from '../data/siteImages';
+import { Language } from '../data/translations';
 
 interface BlogPostDetailProps {
   postId: number;
   onNavigate: (page: string) => void;
   siteImages: SiteImages;
+  lang: Language;
 }
 
-const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ postId, onNavigate, siteImages }) => {
-  const post = blogPosts.find(p => p.id === postId);
+const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ postId, onNavigate, siteImages, lang }) => {
+  const posts = getBlogPosts(lang);
+  const post = posts.find(p => p.id === postId);
 
   if (!post) {
     return (
       <div className="pt-48 pb-24 text-center">
-        <h2 className="text-2xl font-bold mb-4">게시물을 찾을 수 없습니다.</h2>
-        <button onClick={() => onNavigate('blog')} className="text-blue-600 font-bold">목록으로 돌아가기</button>
+        <h2 className="text-2xl font-bold mb-4">Post not found.</h2>
+        <button onClick={() => onNavigate('blog')} className="text-blue-600 font-bold">Return to list</button>
       </div>
     );
   }
@@ -25,7 +28,6 @@ const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ postId, onNavigate, sit
 
   return (
     <div className="pt-32 pb-32">
-      {/* Article Header */}
       <div className="max-w-5xl mx-auto px-6 lg:px-12">
         <button 
           onClick={() => onNavigate('blog')}
@@ -48,24 +50,22 @@ const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ postId, onNavigate, sit
           <img src={postImage} className="w-full h-full object-cover" alt={post.title} />
         </div>
 
-        {/* Article Content */}
         <div className="max-w-3xl mx-auto">
           <article 
             className="blog-content-container"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
           
-          {/* Author Card */}
           <div className="mt-32 p-12 bg-gray-50 rounded-[3rem] border border-gray-100 flex flex-col md:flex-row items-center gap-8">
             <div className="w-20 h-20 bg-blue-600 rounded-3xl flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-blue-600/20">E</div>
             <div className="flex-1 text-center md:text-left">
               <h4 className="text-xl font-black text-gray-900 mb-2">Eaglewings Insight Lab</h4>
               <p className="text-gray-500 text-sm font-light leading-relaxed mb-6">
-                본 리포트는 Eaglewings Agency의 말레이시아 현지 실무진과 법무팀의 검수를 거쳐 작성되었습니다. 말레이시아 시장 진출을 희망하는 한국 기업을 위해 정기적으로 발행되는 전문 인사이트입니다.
+                This report was prepared through reviews by the local operations and legal teams of Eaglewings Agency in Malaysia. It is a professional insight report published regularly for Korean companies wishing to enter the Malaysian market.
               </p>
               <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                <button onClick={() => onNavigate('contact')} className="bg-blue-600 text-white px-8 py-3 rounded-2xl text-xs font-black tracking-widest hover:bg-blue-700 transition-all">진출 상담 신청</button>
-                <button onClick={() => onNavigate('solutions')} className="bg-white border border-gray-200 text-gray-600 px-8 py-3 rounded-2xl text-xs font-black tracking-widest hover:bg-gray-50 transition-all">전체 솔루션 보기</button>
+                <button onClick={() => onNavigate('contact')} className="bg-blue-600 text-white px-8 py-3 rounded-2xl text-xs font-black tracking-widest hover:bg-blue-700 transition-all uppercase">Consultation</button>
+                <button onClick={() => onNavigate('solutions')} className="bg-white border border-gray-200 text-gray-600 px-8 py-3 rounded-2xl text-xs font-black tracking-widest hover:bg-gray-50 transition-all uppercase">All Solutions</button>
               </div>
             </div>
           </div>
@@ -112,10 +112,10 @@ const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ postId, onNavigate, sit
         .blog-content-container ul, .blog-content-container ol {
           margin-bottom: 3rem;
           padding-left: 1.5rem;
+          list-style-type: disc;
         }
         .blog-content-container li {
           margin-bottom: 1rem;
-          position: relative;
         }
         .blog-content-container strong {
           font-weight: 900;
@@ -131,15 +131,6 @@ const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ postId, onNavigate, sit
           font-size: 1.25rem;
           position: relative;
         }
-        .blog-content-container blockquote::before {
-          content: '"';
-          position: absolute;
-          top: 1rem;
-          left: 1rem;
-          font-size: 4rem;
-          color: #e2e8f0;
-          font-family: serif;
-        }
         .blog-content-container .highlight-box {
           margin: 4rem 0;
           padding: 3rem;
@@ -151,16 +142,10 @@ const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ postId, onNavigate, sit
           margin-top: 0;
           color: #1e40af;
         }
-        .blog-content-container .highlight-box p {
-          margin-bottom: 0;
-          color: #1e3a8a;
-          font-size: 1rem;
-          font-weight: 500;
-        }
         .blog-content-container .footer-source {
           margin-top: 6rem;
           padding-top: 2rem;
-          border-t: 1px solid #f3f4f6;
+          border-top: 1px solid #f3f4f6;
           font-size: 0.75rem;
           color: #9ca3af;
           font-weight: 700;

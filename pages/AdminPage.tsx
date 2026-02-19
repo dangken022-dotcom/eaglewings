@@ -38,7 +38,7 @@ const AdminPage: React.FC<AdminPageProps> = ({ currentImages, onUpdate, onNaviga
     setTimeout(() => setSuccess(false), 3000);
   };
 
-  const ImageInput = ({ label, name, value }: { label: string, name: string, value: string }) => (
+  const ImageInput: React.FC<{ label: string, name: string, value: string }> = ({ label, name, value }) => (
     <div className="space-y-3">
       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 block">{label}</label>
       <input 
@@ -46,10 +46,15 @@ const AdminPage: React.FC<AdminPageProps> = ({ currentImages, onUpdate, onNaviga
         name={name}
         value={value} 
         onChange={handleChange}
+        placeholder="https://example.com/image.png"
         className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-xs focus:ring-2 focus:ring-blue-500 outline-none font-mono"
       />
-      <div className="aspect-video rounded-2xl overflow-hidden bg-gray-100 border border-gray-100 shadow-sm relative group">
-        <img src={value} alt="Preview" className="w-full h-full object-cover" />
+      <div className="aspect-video rounded-2xl overflow-hidden bg-gray-100 border border-gray-100 shadow-sm relative group flex items-center justify-center">
+        {value ? (
+          <img src={value} alt="Preview" className="w-full h-full object-contain p-2" />
+        ) : (
+          <span className="text-gray-300 text-[10px] font-black uppercase">No Image</span>
+        )}
         <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
       </div>
     </div>
@@ -93,8 +98,8 @@ const AdminPage: React.FC<AdminPageProps> = ({ currentImages, onUpdate, onNaviga
       <div className="max-w-6xl mx-auto px-6 lg:px-12">
         <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <h1 className="text-4xl font-black text-gray-900 mb-2 tracking-tighter">Site-wide Image Administration</h1>
-            <p className="text-gray-500 font-light">사이트의 모든 사진을 위치별로 관리하고 실시간으로 교체합니다.</p>
+            <h1 className="text-4xl font-black text-gray-900 mb-2 tracking-tighter">Site-wide Administration</h1>
+            <p className="text-gray-500 font-light">사이트의 로고 및 모든 사진을 실시간으로 관리합니다.</p>
           </div>
           <div className="flex items-center gap-4">
              {success && <span className="text-green-600 font-black text-xs animate-bounce uppercase tracking-widest">✓ Successfully Saved</span>}
@@ -109,9 +114,10 @@ const AdminPage: React.FC<AdminPageProps> = ({ currentImages, onUpdate, onNaviga
           <div className="bg-white rounded-[2.5rem] shadow-xl border border-gray-100 p-10">
             <h3 className="text-lg font-black text-gray-900 mb-8 pb-4 border-b border-gray-50 flex items-center gap-3">
               <span className="w-2 h-6 bg-blue-600 rounded-full"></span>
-              MAIN LAYOUT
+              MAIN LAYOUT & LOGO
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              <ImageInput label="Site Logo (PNG recommended)" name="logo" value={images.logo} />
               <ImageInput label="Hero Background" name="hero" value={images.hero} />
               <ImageInput label="About Story Main" name="aboutMain" value={images.aboutMain} />
             </div>
@@ -134,7 +140,7 @@ const AdminPage: React.FC<AdminPageProps> = ({ currentImages, onUpdate, onNaviga
           <div className="bg-white rounded-[2.5rem] shadow-xl border border-gray-100 p-10">
             <h3 className="text-lg font-black text-gray-900 mb-8 pb-4 border-b border-gray-50 flex items-center gap-3">
               <span className="w-2 h-6 bg-purple-400 rounded-full"></span>
-              ACTIVITY & SKETCH (About Bottom)
+              ACTIVITY & SKETCH
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
               <ImageInput label="Sketch 01" name="sketch1" value={images.sketch1} />
@@ -167,7 +173,7 @@ const AdminPage: React.FC<AdminPageProps> = ({ currentImages, onUpdate, onNaviga
           <div className="max-w-xl text-center md:text-left">
             <h4 className="text-2xl font-black mb-4 tracking-tight">작업을 완료하셨나요?</h4>
             <p className="text-blue-200 font-light text-sm leading-relaxed">
-              변경사항은 저장 즉시 모든 방문자에게 실시간으로 반영됩니다. 저장하기 전 이미지 주소가 정확한지 다시 한번 확인해주세요.
+              로고를 포함한 모든 변경사항은 저장 즉시 사이트에 반영됩니다. 투명 배경의 PNG 로고를 권장합니다.
             </p>
           </div>
           <button 
