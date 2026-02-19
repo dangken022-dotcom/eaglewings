@@ -14,12 +14,6 @@
             margin: 0;
             -webkit-font-smoothing: antialiased;
         }
-        .gradient-text {
-            background: linear-gradient(90deg, #1e40af, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        /* Page Load Animation */
         #root {
             opacity: 0;
             animation: fadeIn 0.8s ease-out forwards;
@@ -29,7 +23,7 @@
         }
     </style>
     <script>
-        // 브라우저 환경에서 process.env 참조 에러 방지
+        // 브라우저 환경에서 process.env 참조 에러 방지 (Vercel 배포 필수)
         window.process = { env: { API_KEY: '' } };
     </script>
     <script type="importmap">
@@ -46,7 +40,6 @@
 </head>
 <body class="bg-white text-gray-900 overflow-x-hidden">
     <div id="root"></div>
-    <!-- 진입점 스크립트 명시 -->
     <script type="module" src="./index.tsx"></script>
 </body>
 </html>

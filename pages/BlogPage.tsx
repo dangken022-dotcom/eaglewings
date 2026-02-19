@@ -20,11 +20,14 @@ const BlogPage: React.FC<BlogPageProps> = ({ onNavigate, siteImages, lang }) => 
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="text-center mb-24">
             <h1 className="text-5xl md:text-6xl font-black text-gray-900 tracking-tighter mb-6">{t.title}</h1>
-            <p className="text-xl text-gray-400 font-light max-w-2xl mx-auto">Market insights delivered by local experts in Malaysia.</p>
+            <p className="text-xl text-gray-400 font-light max-w-2xl mx-auto">
+              {lang === 'ko' ? '말레이시아 현지 전문가들이 전하는 생생한 시장 보고서입니다.' : 'Market insights delivered by local experts in Malaysia.'}
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-20">
             {posts.map(post => {
+              // Admin에서 설정한 이미지가 있으면 그것을 우선 사용
               const postImage = (siteImages as any)[`blog${post.id}`] || post.image;
               return (
                 <div 
@@ -32,12 +35,16 @@ const BlogPage: React.FC<BlogPageProps> = ({ onNavigate, siteImages, lang }) => 
                   className="group cursor-pointer"
                   onClick={() => onNavigate('blog-detail', post.id)}
                 >
-                  <div className="aspect-[4/3] rounded-[2.5rem] overflow-hidden mb-8 shadow-2xl shadow-gray-200/50">
+                  <div className="aspect-[4/3] rounded-[2.5rem] overflow-hidden mb-8 shadow-2xl shadow-gray-200/50 relative">
                      <img src={postImage} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={post.title} />
+                     <div className="absolute top-6 left-6">
+                        <span className="bg-white/95 backdrop-blur-sm text-blue-600 text-[9px] font-black tracking-widest px-4 py-2 rounded-full shadow-sm">
+                          {post.category}
+                        </span>
+                     </div>
                   </div>
                   <div className="flex items-center gap-4 mb-4">
-                     <span className="text-blue-600 text-[10px] font-black tracking-widest uppercase">{post.category}</span>
-                     <span className="text-gray-300 text-[10px] font-black uppercase">{post.date}</span>
+                     <span className="text-gray-300 text-[10px] font-black uppercase tracking-widest">{post.date}</span>
                   </div>
                   <h3 className="text-xl font-black text-gray-900 mb-4 group-hover:text-blue-600 transition-colors tracking-tight leading-snug">
                     {post.title}
@@ -54,9 +61,13 @@ const BlogPage: React.FC<BlogPageProps> = ({ onNavigate, siteImages, lang }) => 
             })}
           </div>
 
-          <div className="mt-24 flex justify-center space-x-4">
+          {/* Pagination (현재는 1페이지만 표시) */}
+          <div className="mt-32 flex justify-center items-center space-x-4">
              <button className="w-12 h-12 rounded-2xl font-black text-sm bg-blue-600 text-white shadow-xl shadow-blue-500/30 transition-all">
                1
+             </button>
+             <button className="w-12 h-12 rounded-2xl font-black text-sm bg-gray-50 text-gray-300 hover:text-blue-600 transition-all">
+               2
              </button>
           </div>
         </div>

@@ -27,7 +27,7 @@ const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ postId, onNavigate, sit
   const postImage = (siteImages as any)[`blog${post.id}`] || post.image;
 
   return (
-    <div className="pt-32 pb-32">
+    <div className="pt-32 pb-32 bg-white">
       <div className="max-w-5xl mx-auto px-6 lg:px-12">
         <button 
           onClick={() => onNavigate('blog')}
@@ -55,20 +55,6 @@ const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ postId, onNavigate, sit
             className="blog-content-container"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
-          
-          <div className="mt-32 p-12 bg-gray-50 rounded-[3rem] border border-gray-100 flex flex-col md:flex-row items-center gap-8">
-            <div className="w-20 h-20 bg-blue-600 rounded-3xl flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-blue-600/20">E</div>
-            <div className="flex-1 text-center md:text-left">
-              <h4 className="text-xl font-black text-gray-900 mb-2">Eaglewings Insight Lab</h4>
-              <p className="text-gray-500 text-sm font-light leading-relaxed mb-6">
-                This report was prepared through reviews by the local operations and legal teams of Eaglewings Agency in Malaysia. It is a professional insight report published regularly for Korean companies wishing to enter the Malaysian market.
-              </p>
-              <div className="flex flex-wrap justify-center md:justify-start gap-4">
-                <button onClick={() => onNavigate('contact')} className="bg-blue-600 text-white px-8 py-3 rounded-2xl text-xs font-black tracking-widest hover:bg-blue-700 transition-all uppercase">Consultation</button>
-                <button onClick={() => onNavigate('solutions')} className="bg-white border border-gray-200 text-gray-600 px-8 py-3 rounded-2xl text-xs font-black tracking-widest hover:bg-gray-50 transition-all uppercase">All Solutions</button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -80,76 +66,69 @@ const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ postId, onNavigate, sit
           font-weight: 300;
         }
         .blog-content-container .lead {
-          font-size: 1.5rem;
+          font-size: 1.4rem;
           color: #111827;
           font-weight: 700;
           line-height: 1.5;
           margin-bottom: 3rem;
           letter-spacing: -0.02em;
-          border-left: 4px solid #2563eb;
-          padding-left: 2rem;
         }
         .blog-content-container h3 {
           font-weight: 900;
-          font-size: 2.25rem;
+          font-size: 2rem;
           color: #111827;
-          margin-top: 5rem;
-          margin-bottom: 2rem;
+          margin-top: 4rem;
+          margin-bottom: 1.5rem;
           letter-spacing: -0.04em;
           line-height: 1.2;
         }
         .blog-content-container h4 {
           font-weight: 900;
-          font-size: 1.5rem;
+          font-size: 1.35rem;
           color: #1e3a8a;
-          margin-top: 3rem;
-          margin-bottom: 1.5rem;
+          margin-top: 2rem;
+          margin-bottom: 1rem;
           letter-spacing: -0.02em;
         }
         .blog-content-container p {
-          margin-bottom: 2rem;
+          margin-bottom: 1.5rem;
         }
-        .blog-content-container ul, .blog-content-container ol {
-          margin-bottom: 3rem;
+        .blog-content-container ul {
+          margin-bottom: 2rem;
           padding-left: 1.5rem;
-          list-style-type: disc;
+          list-style-type: none;
         }
         .blog-content-container li {
-          margin-bottom: 1rem;
-        }
-        .blog-content-container strong {
-          font-weight: 900;
-          color: #111827;
-        }
-        .blog-content-container blockquote {
-          margin: 4rem 0;
-          padding: 3rem;
-          background: #f8fafc;
-          border-radius: 2.5rem;
-          font-style: italic;
-          color: #475569;
-          font-size: 1.25rem;
+          margin-bottom: 0.75rem;
           position: relative;
         }
-        .blog-content-container .highlight-box {
-          margin: 4rem 0;
-          padding: 3rem;
-          background: #eff6ff;
-          border-radius: 2.5rem;
-          border: 1px solid #dbeafe;
+        .blog-content-container li::before {
+          content: "•";
+          color: #2563eb;
+          font-weight: bold;
+          position: absolute;
+          left: -1.2rem;
         }
-        .blog-content-container .highlight-box h4 {
-          margin-top: 0;
-          color: #1e40af;
+        .blog-content-container strong {
+          font-weight: 800;
+          color: #111827;
+        }
+        .blog-content-container .highlight-box {
+          margin: 3rem 0;
+          padding: 2.5rem;
+          background: #f0f7ff;
+          border-radius: 2rem;
+          border-left: 6px solid #2563eb;
         }
         .blog-content-container .footer-source {
-          margin-top: 6rem;
-          padding-top: 2rem;
+          margin-top: 4rem;
+          padding-top: 1.5rem;
           border-top: 1px solid #f3f4f6;
           font-size: 0.75rem;
           color: #9ca3af;
-          font-weight: 700;
-          letter-spacing: 0.05em;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          white-space: pre-line;
         }
       `}</style>
     </div>
